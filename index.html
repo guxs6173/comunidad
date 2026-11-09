@@ -1,0 +1,720 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Espacio Comunitario Tecnológico</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Concepto: encabezado fijo; héroe con el trayecto donación → capacitación → oportunidad;
+   secciones en dos columnas (título | contenido); bandas de tinta para objetivo, impacto y cierre. */
+:root{
+  --bg:#F3F6F4; --surface:#FFFFFF; --surface-2:#E6EEEA; --fg:#10222F; --muted:#485D6A; --line:#C5D3CD;
+  --accent:#1E4FD6; --accent-fg:#FFFFFF; --signal:#FFC531; --signal-fg:#10222F;
+  --ink-bg:#10222F; --ink-fg:#EAF1F5; --ink-muted:#A9BAC5;
+  --font-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gutter:clamp(16px,4vw,40px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1620; --surface:#122332; --surface-2:#0F1C28; --fg:#E8F0F4; --muted:#9FB2BE; --line:#25394A;
+  --accent:#7EA2FF; --accent-fg:#0B1620; --ink-bg:#050C12; --ink-fg:#EAF1F5; --ink-muted:#9FB2BE; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1620; --surface:#122332; --surface-2:#0F1C28; --fg:#E8F0F4; --muted:#9FB2BE; --line:#25394A;
+  --accent:#7EA2FF; --accent-fg:#0B1620; --ink-bg:#050C12; --ink-fg:#EAF1F5; --ink-muted:#9FB2BE; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.6 var(--font-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:40}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance;letter-spacing:-.01em;line-height:1.1}
+h2{font-size:clamp(1.7rem,3.8vw,2.5rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+a{color:var(--accent)}
+.mono{font-family:var(--font-mono)}
+.kicker{font:500 .8rem/1.3 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tbd{color:var(--muted)}
+.wrap{width:100%;max-width:1200px;margin-inline:auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+.sec{padding-block:clamp(56px,9vw,104px)}
+.sec.alt{background:var(--surface-2)}
+.sec.ink{background:var(--ink-bg);color:var(--ink-fg)}
+section[id],header[id]{scroll-margin-top:76px}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,72px);align-items:start}
+.split>*{min-width:0}
+.stack{display:flex;flex-direction:column;gap:20px}
+.lead{font-size:clamp(1.1rem,2vw,1.35rem);line-height:1.5}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ink :focus-visible{outline-color:var(--signal)}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 20px;border-radius:4px;border:2px solid transparent;font:600 1rem/1.2 var(--font-body);text-decoration:none;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-signal{background:var(--signal);color:var(--signal-fg)}
+.btn-accent{background:var(--accent);color:var(--accent-fg)}
+.btn-ghost{background:transparent;color:var(--fg);border-color:var(--fg)}
+.ink .btn-ghost{color:var(--ink-fg);border-color:var(--ink-fg)}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* encabezado */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--fg);text-decoration:none;font:700 1rem/1.15 var(--font-display);min-width:0}
+.brand svg{flex:none}
+.menu-btn{font:600 .9rem var(--font-body);color:var(--fg);background:transparent;border:2px solid var(--fg);border-radius:4px;min-height:40px;padding:6px 14px;cursor:pointer}
+.nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:8px max(var(--gutter),env(safe-area-inset-right,0px)) 16px max(var(--gutter),env(safe-area-inset-left,0px))}
+.nav[data-open="true"]{display:flex}
+.nav a{color:var(--fg);text-decoration:none;font-weight:500;padding:12px 0;border-bottom:1px solid var(--line)}
+.nav a:hover{color:var(--accent)}
+@media(min-width:980px){
+  .menu-btn{display:none}
+  .nav,.nav[data-open]{display:flex;position:static;flex-direction:row;gap:22px;border:0;padding:0;background:none}
+  .nav a{border:0;padding:6px 0;font-size:.95rem}
+}
+
+/* héroe */
+.hero{background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px;padding-block:clamp(40px,7vw,88px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,5vw,64px);align-items:center}
+.hero h1{font-size:clamp(2.3rem,6vw,4.4rem);font-weight:800;letter-spacing:-.025em;margin:14px 0 20px}
+.hero .lead{max-width:56ch;margin-bottom:28px;color:var(--muted)}
+.hero-art{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:clamp(12px,2vw,24px)}
+.hero-art svg{display:block;width:100%;height:auto}
+.hero-art .cap{font:500 .75rem/1.4 var(--font-mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:8px}
+.hero-art .gapline{stroke:var(--muted);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round}
+.hero-art .bridge{stroke:var(--signal);stroke-width:7;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:0;animation:draw 1.4s .3s ease-out both}
+.hero-art .b2{animation-delay:.9s}
+@keyframes draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+.hero-art .node{fill:var(--surface);stroke:var(--fg);stroke-width:2.5}
+.hero-art .ic{fill:none;stroke:var(--fg);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.hero-art .dot{fill:var(--fg)}
+.hero-art text{font:500 17px var(--font-mono);fill:var(--fg);letter-spacing:.06em;text-anchor:middle;text-transform:uppercase}
+
+/* chips y listas */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.chip{border:1.5px solid var(--fg);border-radius:4px;padding:4px 12px;font:500 .85rem/1.4 var(--font-mono)}
+.lab{font:500 .78rem/1.3 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ink .lab{color:var(--ink-muted)}
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.ticks li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.ticks li:last-child{border-bottom:1px solid var(--line)}
+.ticks li::before{content:"";width:12px;height:12px;margin-top:.45em;background:var(--signal);border:2px solid var(--fg)}
+.ink .ticks li{border-color:#2a3f50}
+.ink .ticks li::before{border-color:var(--ink-fg)}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(20px,4vw,56px)}
+.big-quote{font:700 clamp(1.5rem,3.4vw,2.4rem)/1.2 var(--font-display);text-wrap:balance}
+
+/* plano */
+.plan-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start;margin-top:36px}
+.plan{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"recep revis" "aula aula" "prac orien";gap:8px;padding:10px;border:3px solid var(--fg);background:var(--surface)}
+.room{font:650 1rem/1.2 var(--font-display);color:var(--fg);text-align:left;padding:14px;min-height:92px;border:1.5px solid var(--fg);border-radius:2px;cursor:pointer;display:flex;align-items:flex-end}
+.room.eq{background:color-mix(in srgb,var(--signal) 30%,var(--surface))}
+.room.ln{background:color-mix(in srgb,var(--accent) 14%,var(--surface))}
+.room.is-on{outline:4px solid var(--accent);outline-offset:1px}
+.r-recep{grid-area:recep}.r-revis{grid-area:revis}.r-aula{grid-area:aula;min-height:128px}.r-prac{grid-area:prac}.r-orien{grid-area:orien}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font:500 .78rem var(--font-mono);color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;margin-right:8px;border:1.5px solid var(--fg);vertical-align:-1px}
+.legend .l-eq::before{background:color-mix(in srgb,var(--signal) 55%,var(--surface))}
+.legend .l-ln::before{background:color-mix(in srgb,var(--accent) 30%,var(--surface))}
+.room-item{padding:14px 0 16px;border-top:2px solid var(--line)}
+.room-item p{color:var(--muted);margin-top:6px}
+.room-item.is-on{border-top-color:var(--accent)}
+.room-item.is-on h3{color:var(--accent)}
+
+/* pasos */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:16px 0;border-top:1px solid var(--line);font-size:1.08rem}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s,decimal-leading-zero);font:500 1rem var(--font-mono);color:var(--accent);padding-top:.15em}
+.flow{list-style:none;margin:32px 0 0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px;counter-reset:f}
+.flow li{counter-increment:f;position:relative;border-top:4px solid var(--fg);padding-top:12px;font:650 1.02rem/1.25 var(--font-display)}
+.flow li::before{content:counter(f,decimal-leading-zero);display:block;font:500 .8rem var(--font-mono);color:var(--muted);margin-bottom:6px}
+.outcomes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:36px}
+.outcomes div{padding-top:12px;border-top:1px solid var(--line)}
+.outcomes p{color:var(--muted);margin-top:4px}
+
+/* formularios */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:clamp(18px,3vw,32px)}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0;border:0;padding:0;margin:0}
+.field.full{grid-column:1/-1}
+.field label,.field legend{font-weight:600;font-size:.92rem;padding:0}
+.opt{font-weight:400;color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--fg);background:var(--bg);border:1.5px solid var(--line);border-radius:4px;padding:10px 12px;width:100%;min-height:46px}
+textarea{min-height:96px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.choices{display:grid;gap:8px;margin-top:4px}
+.choice{display:flex;gap:10px;align-items:flex-start;font-weight:400!important}
+.choice input{width:auto;min-height:0;margin-top:.3em;accent-color:var(--accent)}
+.result{grid-column:1/-1;border-top:2px solid var(--fg);padding-top:16px;display:grid;gap:12px}
+.result pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:400 .9rem/1.5 var(--font-mono);background:var(--surface-2);border:1px solid var(--line);padding:14px;border-radius:4px}
+.hint{border-top:2px solid var(--fg);padding-top:14px}
+.hint h3{margin-bottom:6px}
+
+/* talleres */
+.wk-head,.wk{display:grid;grid-template-columns:minmax(0,2.6fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr) minmax(0,.8fr) auto;gap:16px;align-items:center}
+.wk-head{padding:0 0 10px;font:500 .75rem var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.wk-list{list-style:none;margin:0;padding:0}
+.wk{padding:18px 0;border-top:1px solid var(--line)}
+.wk:last-child{border-bottom:1px solid var(--line)}
+.wk-name p{color:var(--muted);font-size:.95rem;margin-top:4px}
+.wk-meta{font-size:.95rem;min-width:0}
+.wk .btn{min-height:42px;padding:8px 16px;white-space:nowrap}
+
+/* impacto */
+.figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px clamp(20px,4vw,48px);margin-top:40px}
+.fig{border-top:1px solid #2a3f50;padding-top:16px}
+.num{font:700 clamp(2.6rem,6vw,4.4rem)/1 var(--font-display);color:var(--signal);font-variant-numeric:tabular-nums}
+.fig .lab{margin-top:10px}
+.note{margin-top:28px;color:var(--ink-muted);max-width:60ch}
+
+/* ODS */
+.ods{display:grid;gap:0;margin-top:32px}
+.od{display:grid;grid-template-columns:96px minmax(0,1fr);gap:clamp(16px,3vw,32px);padding:24px 0;border-top:1px solid var(--line);align-items:start}
+.od:last-child{border-bottom:1px solid var(--line)}
+.tile{width:96px;aspect-ratio:1;max-width:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:10px 12px;color:#fff;font-family:var(--font-display)}
+.tile small{font:500 .7rem var(--font-mono);letter-spacing:.1em}
+.tile b{font-size:2.6rem;line-height:1}
+.t4{background:#C5192D}.t9{background:#F36D25}.t10{background:#DD1367}
+.od p{color:var(--muted);margin-top:6px;max-width:62ch}
+.od .meta{display:inline-block;margin-top:10px;font:500 .78rem var(--font-mono);border:1.5px solid var(--fg);border-radius:4px;padding:2px 10px}
+
+/* ubicación y contacto */
+.info{display:grid;gap:0;margin:24px 0 0}
+.info div{padding:14px 0;border-top:1px solid var(--line)}
+.info div:last-child{border-bottom:1px solid var(--line)}
+.info dt{font:500 .78rem var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.info dd{margin:0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;overflow-wrap:anywhere}
+.mini{font:600 .8rem var(--font-body);background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:4px;padding:3px 10px;cursor:pointer}
+.map{margin:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.map svg{display:block;width:100%;height:auto}
+.map figcaption{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line);font:500 .78rem var(--font-mono);color:var(--muted)}
+.map .road{stroke:var(--line);fill:none;stroke-width:14;stroke-linecap:round}
+.map .block{fill:var(--surface-2)}
+.map .pin{fill:var(--accent)}
+.map .pin-dot{fill:var(--accent-fg)}
+.contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px}
+.contact-grid>div{border-top:2px solid var(--fg);padding-top:14px;min-width:0}
+.contact-grid .v{margin-top:6px;font-size:1.05rem;display:flex;flex-wrap:wrap;gap:10px;align-items:center;overflow-wrap:anywhere}
+
+/* FAQ */
+.faq{margin-top:28px;max-width:860px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font:650 1.1rem/1.3 var(--font-display);display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:500 1.4rem/1 var(--font-mono);color:var(--accent)}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{padding:0 0 20px;color:var(--muted);max-width:62ch}
+
+footer.end{background:var(--ink-bg);color:var(--ink-muted);padding-block:24px 28px;font-size:.9rem;border-top:1px solid #2a3f50}
+
+@media(max-width:979px){
+  .flow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .outcomes{grid-template-columns:1fr}
+}
+@media(min-width:980px){
+  .flow li:not(:last-child)::after{content:"\2192";position:absolute;top:-.8em;right:-18px;font:500 1.1rem var(--font-mono);background:var(--bg);color:var(--fg);padding:0 2px}
+  .sec.alt .flow li:not(:last-child)::after{background:var(--surface-2)}
+}
+@media(max-width:860px){
+  .split,.hero-grid,.plan-wrap{grid-template-columns:minmax(0,1fr)}
+  .contact-grid{grid-template-columns:minmax(0,1fr)}
+  .figs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two-col{grid-template-columns:minmax(0,1fr)}
+  .wk-head{display:none}
+  .wk{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+  .wk-name,.wk .btn{grid-column:1/-1}
+  .wk-meta::before{content:attr(data-label);display:block;font:500 .72rem var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+}
+@media(max-width:560px){
+  .form{grid-template-columns:minmax(0,1fr)}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .od{grid-template-columns:72px minmax(0,1fr)}
+  .tile{width:72px}.tile b{font-size:2rem}
+  .figs{gap:28px 16px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-art .bridge{animation:none}.btn{transition:none}}
+</style>
+
+<div class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#inicio" aria-label="Espacio Comunitario Tecnológico, inicio">
+      <svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><circle cx="5" cy="11" r="4.5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="29" cy="11" r="4.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M10 11h14" stroke="#FFC531" stroke-width="4" stroke-linecap="round"/></svg>
+      <span>Espacio Comunitario Tecnológico</span>
+    </a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menú</button>
+    <nav class="nav" id="nav" data-open="false" aria-label="Principal">
+      <a href="#proyecto">Proyecto</a>
+      <a href="#espacio">Espacio</a>
+      <a href="#talleres">Talleres</a>
+      <a href="#donar">Donar</a>
+      <a href="#voluntariado">Voluntariado</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</div>
+
+<!-- 1. INICIO -->
+<header class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="kicker">Espacio Comunitario Tecnológico</p>
+      <h1>Conectamos oportunidades, reducimos la brecha digital.</h1>
+      <p class="lead">Somos una iniciativa comunitaria que busca reducir la brecha digital mediante el acceso a equipos tecnológicos, capacitación y acompañamiento. Creamos un espacio donde las personas pueden aprender a utilizar herramientas digitales que les ayuden en sus estudios, trabajo y actividades cotidianas.</p>
+      <div class="actions">
+        <a class="btn btn-signal" href="#donar">Quiero donar</a>
+        <a class="btn btn-accent" href="#voluntariado">Quiero ser voluntario</a>
+        <a class="btn btn-ghost" href="#proyecto">Conoce nuestro proyecto</a>
+      </div>
+    </div>
+    <figure class="hero-art">
+      <svg viewBox="0 0 520 270" role="img" aria-label="Un equipo donado se convierte en capacitación y luego en una oportunidad">
+        <line class="gapline" x1="124" y1="130" x2="206" y2="130"/>
+        <line class="gapline" x1="314" y1="130" x2="396" y2="130"/>
+        <line class="bridge" pathLength="100" x1="124" y1="130" x2="206" y2="130"/>
+        <line class="bridge b2" pathLength="100" x1="314" y1="130" x2="396" y2="130"/>
+        <circle class="node" cx="70" cy="130" r="50"/>
+        <circle class="node" cx="260" cy="130" r="50"/>
+        <circle class="node" cx="450" cy="130" r="50"/>
+        <rect class="ic" x="56" y="104" width="28" height="52" rx="6"/>
+        <path class="ic" d="M66 147h8"/>
+        <rect class="ic" x="232" y="110" width="56" height="36" rx="4"/>
+        <path class="ic" d="M222 158h76"/>
+        <path class="ic" d="M432 158v-32a18 18 0 0 1 36 0v32z"/>
+        <circle class="dot" cx="460" cy="144" r="2.8"/>
+        <text x="70" y="226">Donación</text>
+        <text x="260" y="226">Capacitación</text>
+        <text x="450" y="226">Oportunidad</text>
+      </svg>
+      <figcaption class="cap">De un equipo donado a una oportunidad</figcaption>
+    </figure>
+  </div>
+</header>
+
+<!-- 2. SOBRE NUESTRO PROYECTO -->
+<section class="sec" id="proyecto">
+  <div class="wrap split">
+    <h2>Sobre nuestro proyecto</h2>
+    <div class="stack">
+      <p class="lead">En nuestra comunidad existen personas que tienen dificultades para acceder a dispositivos tecnológicos, internet y conocimientos digitales. Esta situación puede limitar sus oportunidades educativas, laborales y económicas.</p>
+      <p>Por ello, proponemos un espacio comunitario tecnológico que facilite el acceso a equipos y desarrolle competencias digitales.</p>
+      <div>
+        <p class="lab" style="margin-bottom:8px">Lo que falta</p>
+        <ul class="chips"><li class="chip">Dispositivos</li><li class="chip">Internet</li><li class="chip">Conocimientos digitales</li></ul>
+      </div>
+      <div>
+        <p class="lab" style="margin-bottom:8px">Lo que se limita</p>
+        <ul class="chips"><li class="chip">Oportunidades educativas</li><li class="chip">Oportunidades laborales</li><li class="chip">Oportunidades económicas</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. OBJETIVO -->
+<section class="sec ink" id="objetivo">
+  <div class="wrap split">
+    <div class="stack">
+      <h2>Nuestro objetivo</h2>
+      <p class="big-quote">Reducir la brecha digital brindando acceso a dispositivos tecnológicos y desarrollando habilidades digitales mediante talleres gratuitos y acompañamiento personalizado.</p>
+    </div>
+    <div>
+      <p class="lab" style="margin-bottom:12px">Objetivos específicos</p>
+      <ul class="ticks">
+        <li>Facilitar el acceso a celulares, laptops, tablets y otros dispositivos.</li>
+        <li>Brindar talleres gratuitos de competencias digitales.</li>
+        <li>Enseñar el uso responsable y práctico de la tecnología.</li>
+        <li>Apoyar a las personas en actividades educativas y laborales.</li>
+        <li>Promover la participación de voluntarios y donadores.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ESPACIO FÍSICO -->
+<section class="sec" id="espacio">
+  <div class="wrap">
+    <div class="split">
+      <h2>Nuestro espacio físico y aulas</h2>
+      <p class="lead">Así estaría organizado el salón. Toca una zona del plano para ver qué se hace en ella.</p>
+    </div>
+    <div class="plan-wrap">
+      <div>
+        <div class="plan" role="group" aria-label="Plano esquemático del salón">
+          <button type="button" class="room eq r-recep" data-room="recep" aria-pressed="false">Recepción de donaciones</button>
+          <button type="button" class="room eq r-revis" data-room="revis" aria-pressed="false">Revisión y reparación</button>
+          <button type="button" class="room ln r-aula" data-room="aula" aria-pressed="false">Aula de capacitación</button>
+          <button type="button" class="room ln r-prac" data-room="prac" aria-pressed="false">Zona de práctica</button>
+          <button type="button" class="room ln r-orien" data-room="orien" aria-pressed="false">Zona de orientación</button>
+        </div>
+        <div class="legend"><span class="l-eq">Equipos</span><span class="l-ln">Aprendizaje</span><span>Plano esquemático, sin escala</span></div>
+      </div>
+      <div>
+        <div class="room-item" data-item="aula"><h3>Aula de capacitación</h3><p>Espacio donde se realizan talleres sobre computación, internet, herramientas digitales, búsqueda de información y plataformas educativas.</p></div>
+        <div class="room-item" data-item="prac"><h3>Zona de práctica</h3><p>Lugar donde los participantes pueden utilizar las computadoras, tablets o celulares y practicar lo aprendido.</p></div>
+        <div class="room-item" data-item="recep"><h3>Área de recepción de donaciones</h3><p>Espacio destinado a recibir los equipos tecnológicos donados.</p></div>
+        <div class="room-item" data-item="revis"><h3>Área de revisión y reparación</h3><p>Los equipos donados serán revisados para determinar si necesitan mantenimiento o reparación antes de ser utilizados.</p></div>
+        <div class="room-item" data-item="orien"><h3>Zona de orientación</h3><p>Espacio donde los voluntarios brindan apoyo individual a las personas que tengan dificultades con el uso de la tecnología.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. QUÉ ENSEÑAMOS -->
+<section class="sec alt" id="ensenamos">
+  <div class="wrap">
+    <h2 style="margin-bottom:28px">¿Qué enseñamos?</h2>
+    <ul class="ticks two-col">
+      <li>Manejo básico de celulares y computadoras.</li>
+      <li>Uso de internet y navegación segura.</li>
+      <li>Creación y uso de correos electrónicos.</li>
+      <li>Uso de herramientas como Word, PowerPoint y otras herramientas digitales.</li>
+      <li>Búsqueda de información confiable.</li>
+      <li>Uso de plataformas educativas.</li>
+      <li>Elaboración de documentos y trabajos.</li>
+      <li>Uso de herramientas digitales para buscar oportunidades laborales.</li>
+      <li>Seguridad y cuidado de la información personal.</li>
+      <li>Trámites y servicios que pueden realizarse por internet.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 6. CÓMO TRABAJAMOS -->
+<section class="sec" id="como">
+  <div class="wrap split">
+    <h2>¿Cómo trabajamos?</h2>
+    <ol class="steps">
+      <li>La persona se registra.</li>
+      <li>Identificamos qué conocimientos y necesidades digitales tiene.</li>
+      <li>Se le asigna un taller o acompañamiento.</li>
+      <li>Aprende mediante explicaciones y actividades prácticas.</li>
+      <li>Practica utilizando los equipos disponibles.</li>
+      <li>Recibe orientación de los voluntarios.</li>
+      <li>Puede continuar practicando y reforzando lo aprendido.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 7. DONACIONES -->
+<section class="sec alt" id="donar">
+  <div class="wrap split">
+    <div class="stack">
+      <h2>Dona tecnología, crea oportunidades</h2>
+      <p class="lead">Recibimos celulares, tablets, laptops, computadoras y otros dispositivos tecnológicos que puedan ser útiles para el proyecto. Los equipos serán revisados y, cuando sea necesario, reparados o acondicionados para poder ser utilizados.</p>
+      <ul class="chips"><li class="chip">Celulares</li><li class="chip">Tablets</li><li class="chip">Laptops</li><li class="chip">Computadoras</li><li class="chip">Otros dispositivos</li></ul>
+      <div class="hint">
+        <h3>¿No tienes un equipo para donar?</h3>
+        <p>También puedes apoyar difundiendo nuestro proyecto o realizando una donación de materiales necesarios para el funcionamiento del espacio.</p>
+      </div>
+    </div>
+    <form class="card form" id="form-donar" data-title="Donación de equipo" novalidate>
+      <div class="field full"><label for="d-nombre">Nombre</label><input id="d-nombre" name="nombre" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="d-tipo">Tipo de equipo que desea donar</label>
+        <select id="d-tipo" name="tipo" required><option value="">Elige una opción</option><option>Celular</option><option>Tablet</option><option>Laptop</option><option>Computadora de escritorio</option><option>Otro dispositivo</option></select></div>
+      <div class="field"><label for="d-marca">Marca y modelo <span class="opt">(opcional)</span></label><input id="d-marca" name="marca" type="text"></div>
+      <div class="field"><label for="d-estado">Estado del equipo</label>
+        <select id="d-estado" name="estado" required><option value="">Elige una opción</option><option>Funciona bien</option><option>Funciona con fallas</option><option>No enciende</option><option>No estoy seguro</option></select></div>
+      <div class="field"><label for="d-cant">Cantidad</label><input id="d-cant" name="cantidad" type="number" min="1" value="1" inputmode="numeric" required></div>
+      <div class="field"><label for="d-tel">Número de contacto</label><input id="d-tel" name="telefono" type="tel" autocomplete="tel" required></div>
+      <div class="field"><label for="d-mail">Correo electrónico</label><input id="d-mail" name="correo" type="email" autocomplete="email"></div>
+      <fieldset class="field full"><legend>Entrega</legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="entrega" value="Llevaré el equipo al espacio" data-label="Entrega" checked> Llevaré el equipo al espacio</label>
+          <label class="choice"><input type="radio" name="entrega" value="Necesito coordinar la entrega o el recojo" data-label="Entrega"> Necesito coordinar la entrega o el recojo</label>
+        </div></fieldset>
+      <div class="field full"><label for="d-msg">Mensaje <span class="opt">(opcional)</span></label><textarea id="d-msg" name="mensaje"></textarea></div>
+      <div class="field full"><button class="btn btn-signal" type="submit">Quiero donar</button></div>
+      <div class="result" hidden>
+        <p class="r-text"></p><pre class="r-sum"></pre>
+        <div class="actions"><button type="button" class="btn btn-ghost r-copy">Copiar resumen</button><a class="btn btn-accent r-wa" href="#" target="_blank" rel="noopener" hidden>Enviar por WhatsApp</a></div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- 8. VOLUNTARIADO -->
+<section class="sec" id="voluntariado">
+  <div class="wrap split">
+    <div class="stack">
+      <h2>Sé parte del cambio</h2>
+      <p class="lead">Buscamos estudiantes, profesionales y personas con conocimientos digitales que quieran compartir su tiempo y conocimientos para apoyar a la comunidad.</p>
+      <div>
+        <p class="lab" style="margin-bottom:8px">Los voluntarios podrían ayudar en</p>
+        <ul class="ticks">
+          <li>Talleres de capacitación.</li>
+          <li>Orientación personalizada.</li>
+          <li>Manejo básico de computadoras y celulares.</li>
+          <li>Acompañamiento a los participantes.</li>
+          <li>Organización de actividades.</li>
+          <li>Revisión y clasificación de equipos, según sus conocimientos.</li>
+        </ul>
+      </div>
+    </div>
+    <form class="card form" id="form-voluntario" data-title="Inscripción de voluntariado" novalidate>
+      <div class="field full"><label for="v-nombre">Nombre</label><input id="v-nombre" name="nombre" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="v-edad">Edad</label><input id="v-edad" name="edad" type="number" min="14" max="99" inputmode="numeric" required></div>
+      <div class="field"><label for="v-prof">Profesión o carrera</label><input id="v-prof" name="profesion" type="text" required></div>
+      <div class="field full"><label for="v-area">Área en la que puede apoyar</label>
+        <select id="v-area" name="area" required><option value="">Elige una opción</option><option>Talleres de capacitación</option><option>Orientación personalizada</option><option>Manejo básico de computadoras y celulares</option><option>Acompañamiento a los participantes</option><option>Organización de actividades</option><option>Revisión y clasificación de equipos</option></select></div>
+      <div class="field full"><label for="v-disp">Disponibilidad</label><input id="v-disp" name="disponibilidad" type="text" placeholder="Días y horas en que puedes apoyar" required></div>
+      <div class="field full"><label for="v-exp">Experiencia o conocimientos</label><textarea id="v-exp" name="experiencia"></textarea></div>
+      <div class="field"><label for="v-tel">Número de contacto</label><input id="v-tel" name="telefono" type="tel" autocomplete="tel" required></div>
+      <div class="field"><label for="v-mail">Correo electrónico</label><input id="v-mail" name="correo" type="email" autocomplete="email" required></div>
+      <div class="field full"><button class="btn btn-accent" type="submit">Quiero ser voluntario</button></div>
+      <div class="result" hidden>
+        <p class="r-text"></p><pre class="r-sum"></pre>
+        <div class="actions"><button type="button" class="btn btn-ghost r-copy">Copiar resumen</button><a class="btn btn-accent r-wa" href="#" target="_blank" rel="noopener" hidden>Enviar por WhatsApp</a></div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- 9. QUÉ PASA CON LOS EQUIPOS DONADOS -->
+<section class="sec alt" id="equipos">
+  <div class="wrap">
+    <div class="split">
+      <h2>¿Qué pasa con los equipos donados?</h2>
+      <p class="lead">Buscamos aprovechar al máximo las donaciones. Cada equipo sigue este recorrido.</p>
+    </div>
+    <ol class="flow">
+      <li>Donación</li><li>Recepción</li><li>Revisión</li><li>Reparación o acondicionamiento</li><li>Clasificación</li><li>Uso</li>
+    </ol>
+    <div class="outcomes">
+      <div><h3>En buenas condiciones</h3><p>Se utilizan directamente en el espacio.</p></div>
+      <div><h3>Necesitan reparación</h3><p>Se evalúan y se acondicionan.</p></div>
+      <div><h3>No pueden repararse</h3><p>Se evalúa si sus componentes sirven para otros equipos o actividades del proyecto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. TALLERES -->
+<section class="sec" id="talleres">
+  <div class="wrap">
+    <div class="split" style="margin-bottom:36px">
+      <h2>Talleres y actividades</h2>
+      <p class="lead">Todos los talleres son gratuitos. Las fechas y horarios se publicarán aquí apenas estén confirmados.</p>
+    </div>
+    <div class="wk-head" aria-hidden="true"><span>Taller</span><span>Fecha</span><span>Horario</span><span>Duración</span><span>Vacantes</span><span style="min-width:112px"></span></div>
+    <ul class="wk-list" id="lista-talleres"></ul>
+
+    <form class="card form" id="inscripcion" data-title="Inscripción a taller" style="margin-top:48px;max-width:760px" novalidate>
+      <div class="field full"><h3>Inscribirme a un taller</h3></div>
+      <div class="field full"><label for="i-taller">Taller</label><select id="i-taller" name="taller" required></select></div>
+      <div class="field"><label for="i-nombre">Nombre</label><input id="i-nombre" name="nombre" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="i-tel">Número de contacto</label><input id="i-tel" name="telefono" type="tel" autocomplete="tel" required></div>
+      <div class="field full"><label for="i-nec">¿Qué te gustaría aprender? <span class="opt">(opcional)</span></label><textarea id="i-nec" name="necesidad"></textarea></div>
+      <div class="field full"><button class="btn btn-accent" type="submit">Inscribirme</button></div>
+      <div class="result" hidden>
+        <p class="r-text"></p><pre class="r-sum"></pre>
+        <div class="actions"><button type="button" class="btn btn-ghost r-copy">Copiar resumen</button><a class="btn btn-accent r-wa" href="#" target="_blank" rel="noopener" hidden>Enviar por WhatsApp</a></div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- 11. IMPACTO -->
+<section class="sec ink" id="impacto">
+  <div class="wrap">
+    <div class="split">
+      <h2>Nuestro impacto</h2>
+      <p class="lead">Medimos lo que logramos con la comunidad.</p>
+    </div>
+    <div class="figs" id="cifras"></div>
+    <p class="note">Estas cifras parten en cero y se actualizarán a medida que el espacio empiece a funcionar.</p>
+  </div>
+</section>
+
+<!-- 12. ODS -->
+<section class="sec" id="ods">
+  <div class="wrap">
+    <div class="split">
+      <h2>Objetivos de Desarrollo Sostenible</h2>
+      <p class="lead">Nuestro proyecto contribuye a tres de los objetivos de la Agenda 2030.</p>
+    </div>
+    <div class="ods">
+      <div class="od"><div class="tile t4"><small>ODS</small><b>4</b></div>
+        <div><h3>Educación de calidad</h3><p>Contribuimos al desarrollo de competencias técnicas y digitales necesarias para acceder a oportunidades educativas y laborales.</p><span class="meta">Meta 4.4</span></div></div>
+      <div class="od"><div class="tile t9"><small>ODS</small><b>9</b></div>
+        <div><h3>Industria, innovación e infraestructura</h3><p>Promovemos un mayor acceso a las tecnologías de información y comunicación.</p><span class="meta">Meta 9.c</span></div></div>
+      <div class="od"><div class="tile t10"><small>ODS</small><b>10</b></div>
+        <div><h3>Reducción de las desigualdades</h3><p>Buscamos disminuir las desigualdades generadas por la falta de acceso a tecnología y conocimientos digitales.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13. DÓNDE ESTAMOS -->
+<section class="sec alt" id="ubicacion">
+  <div class="wrap split">
+    <div>
+      <h2>¿Dónde estamos?</h2>
+      <dl class="info">
+        <div><dt>Ubicación del espacio</dt><dd><span data-c="direccion"></span></dd></div>
+        <div><dt>Horarios de atención</dt><dd><span data-c="horario"></span></dd></div>
+        <div><dt>WhatsApp</dt><dd><span data-c="whatsapp"></span></dd></div>
+        <div><dt>Redes sociales</dt><dd><span data-c="redes"></span></dd></div>
+      </dl>
+    </div>
+    <figure class="map">
+      <svg viewBox="0 0 400 260" role="img" aria-label="Mapa esquemático con la ubicación marcada">
+        <rect class="block" width="400" height="260"/>
+        <path class="road" d="M-10 70H410M-10 150H410M-10 220H410M90 -10V270M200 -10V270M310 -10V270"/>
+        <path class="road" d="M20 250L380 20" style="stroke-width:10"/>
+        <path class="pin" d="M200 150c-16-22-22-32-22-44a22 22 0 0 1 44 0c0 12-6 22-22 44z" transform="translate(0,-8)"/>
+        <circle class="pin-dot" cx="200" cy="98" r="8"/>
+      </svg>
+      <figcaption><span>Mapa esquemático</span><span id="mapa-nota">La ubicación exacta se publicará al confirmarla.</span><a class="btn btn-accent" id="mapa-link" href="#" target="_blank" rel="noopener" hidden>Abrir en el mapa</a></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 14. PREGUNTAS FRECUENTES -->
+<section class="sec" id="preguntas">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details open><summary>¿Qué puedo donar?</summary><p>Celulares, tablets, laptops, computadoras y otros equipos tecnológicos que puedan ser aprovechados.</p></details>
+      <details><summary>¿Puedo ser voluntario si soy estudiante?</summary><p>Sí. Los estudiantes con conocimientos que puedan aportar al proyecto pueden participar como voluntarios.</p></details>
+      <details><summary>¿Los talleres tienen costo?</summary><p>No. Los talleres del proyecto son gratuitos.</p></details>
+      <details><summary>¿Necesito tener conocimientos previos?</summary><p>No necesariamente. Los talleres estarán adaptados a las necesidades y conocimientos de los participantes.</p></details>
+      <details><summary>¿Qué sucede con los equipos que no pueden repararse?</summary><p>Se evaluará si sus componentes pueden ser aprovechados para otros equipos o actividades del proyecto.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 15. CONTACTO -->
+<section class="sec ink" id="contacto">
+  <div class="wrap">
+    <h2>Contacto</h2>
+    <div class="contact-grid">
+      <div><p class="lab">WhatsApp</p><p class="v"><span data-c="whatsapp"></span><button type="button" class="mini" data-copyc="whatsapp" hidden>Copiar</button></p></div>
+      <div><p class="lab">Correo electrónico</p><p class="v"><span data-c="correo"></span><button type="button" class="mini" data-copyc="correo" hidden>Copiar</button></p></div>
+      <div><p class="lab">Redes sociales</p><p class="v"><span data-c="redes"></span></p></div>
+      <div><p class="lab">Ubicación</p><p class="v"><span data-c="direccion"></span></p></div>
+      <div><p class="lab">Horario de atención</p><p class="v"><span data-c="horario"></span></p></div>
+    </div>
+    <div style="margin-top:72px" class="stack">
+      <p class="big-quote" style="max-width:26ch">Tu donación puede convertirse en una oportunidad. Tu conocimiento puede abrir una puerta.</p>
+      <div class="actions">
+        <a class="btn btn-ghost" href="#inscripcion">Quiero participar</a>
+        <a class="btn btn-signal" href="#donar">Quiero donar</a>
+        <a class="btn btn-ghost" href="#voluntariado">Quiero ser voluntario</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="end"><div class="wrap">Espacio Comunitario Tecnológico · Iniciativa comunitaria para reducir la brecha digital</div></footer>
+
+<script>
+(function(){
+  /* Datos que se completan cuando el equipo los confirme. WhatsApp con código de país, por ejemplo 51999999999. */
+  var CONFIG={whatsapp:"",email:"",redes:"",direccion:"",horario:""};
+  var TBD="Por definir";
+  var TALLERES=[
+    {n:"Computación básica",d:"Manejo básico de computadoras: encender, guardar y encontrar archivos."},
+    {n:"Uso de celulares",d:"Manejo básico del celular y sus aplicaciones."},
+    {n:"Internet seguro",d:"Navegación segura y cuidado de la información personal."},
+    {n:"Herramientas digitales",d:"Correo electrónico y otras herramientas de uso diario."},
+    {n:"Ofimática",d:"Word, PowerPoint y otras herramientas para elaborar documentos y trabajos."},
+    {n:"Plataformas educativas",d:"Cómo usar plataformas educativas y buscar información confiable."},
+    {n:"Herramientas para búsqueda de empleo",d:"Herramientas digitales para buscar oportunidades laborales."},
+    {n:"Trámites y servicios digitales",d:"Trámites y servicios que pueden realizarse por internet."}
+  ];
+  var IMPACTO=[["Personas capacitadas",0],["Talleres realizados",0],["Equipos recibidos",0],["Equipos recuperados",0],["Voluntarios participantes",0],["Horas de capacitación",0]];
+
+  function $(s,r){return (r||document).querySelector(s)}
+  function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  var wa=String(CONFIG.whatsapp||"").replace(/\D/g,"");
+
+  /* menú móvil */
+  var nav=$("#nav"),mb=$("#menu-btn");
+  mb.addEventListener("click",function(){var o=nav.dataset.open==="true";nav.dataset.open=String(!o);mb.setAttribute("aria-expanded",String(!o))});
+  nav.addEventListener("click",function(e){if(e.target.closest("a")){nav.dataset.open="false";mb.setAttribute("aria-expanded","false")}});
+
+  /* plano */
+  var rooms=$$("[data-room]"),items=$$("[data-item]");
+  function on(id){
+    rooms.forEach(function(r){var a=r.dataset.room===id;r.classList.toggle("is-on",a);r.setAttribute("aria-pressed",String(a))});
+    items.forEach(function(i){i.classList.toggle("is-on",i.dataset.item===id)});
+  }
+  rooms.forEach(function(r){["mouseenter","focus","click"].forEach(function(ev){r.addEventListener(ev,function(){on(r.dataset.room)})})});
+  items.forEach(function(i){i.addEventListener("mouseenter",function(){on(i.dataset.item)})});
+  on("aula");
+
+  /* talleres */
+  $("#lista-talleres").innerHTML=TALLERES.map(function(t){
+    var metas=[["Fecha",t.fecha],["Horario",t.horario],["Duración",t.duracion],["Vacantes",t.vacantes]].map(function(m){
+      return '<div class="wk-meta" data-label="'+m[0]+'"><span class="'+(m[1]?"":"tbd")+'">'+esc(m[1]||TBD)+'</span></div>';
+    }).join("");
+    return '<li class="wk"><div class="wk-name"><h3>'+esc(t.n)+'</h3><p>'+esc(t.d)+'</p></div>'+metas+
+      '<a class="btn btn-ghost enroll" href="#inscripcion" data-taller="'+esc(t.n)+'">Inscribirme</a></li>';
+  }).join("");
+  var sel=$("#i-taller");
+  sel.innerHTML='<option value="">Elige un taller</option>'+TALLERES.map(function(t){return "<option>"+esc(t.n)+"</option>"}).join("");
+  $("#lista-talleres").addEventListener("click",function(e){var b=e.target.closest(".enroll");if(b)sel.value=b.dataset.taller});
+
+  /* impacto */
+  $("#cifras").innerHTML=IMPACTO.map(function(x){return '<div class="fig"><div class="num" data-to="'+x[1]+'">'+x[1]+'</div><p class="lab">'+esc(x[0])+'</p></div>'}).join("");
+  var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if("IntersectionObserver" in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting)return;io.unobserve(e.target);
+      var to=+e.target.dataset.to;if(!to)return;var t0=null;
+      (function step(ts){t0=t0||ts;var p=Math.min((ts-t0)/1200,1);e.target.textContent=Math.round(to*(1-Math.pow(1-p,3))).toLocaleString("es-PE");if(p<1)requestAnimationFrame(step)})(performance.now());
+    })},{threshold:.4});
+    $$(".num").forEach(function(n){io.observe(n)});
+  }
+
+  /* contacto */
+  var vals={whatsapp:wa?"+"+wa:"",correo:CONFIG.email,redes:CONFIG.redes,direccion:CONFIG.direccion,horario:CONFIG.horario};
+  $$("[data-c]").forEach(function(el){var v=vals[el.dataset.c];el.textContent=v||"Por confirmar";el.classList.toggle("tbd",!v)});
+  $$("[data-copyc]").forEach(function(b){var v=vals[b.dataset.copyc];if(v){b.hidden=false;b.dataset.copy=v}});
+  if(CONFIG.direccion){
+    var ml=$("#mapa-link");ml.href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(CONFIG.direccion);ml.hidden=false;$("#mapa-nota").hidden=true;
+  }
+
+  /* copiar */
+  function selectNode(n){var r=document.createRange();r.selectNodeContents(n);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  function copy(text,btn,node){
+    var old=btn.textContent;
+    function done(m){btn.textContent=m;setTimeout(function(){btn.textContent=old},1800)}
+    try{navigator.clipboard.writeText(text).then(function(){done("Copiado")},function(){if(node)selectNode(node);done("Selecciona y copia")})}
+    catch(e){if(node)selectNode(node);done("Selecciona y copia")}
+  }
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-copy]");
+    if(b){var rs=b.closest(".result");copy(b.dataset.copy,b,rs?$(".r-sum",rs):b.previousElementSibling)}
+  });
+
+  /* formularios: arman un resumen que se copia o se envía por WhatsApp */
+  $$("form[data-title]").forEach(function(f){
+    f.addEventListener("submit",function(e){
+      e.preventDefault();
+      if(!f.checkValidity()){f.reportValidity();return}
+      var lines=[f.dataset.title,""];
+      $$("input,select,textarea",f).forEach(function(el){
+        if(el.type==="radio"&&!el.checked)return;
+        var v=(el.value||"").trim();if(!v)return;
+        var l=el.dataset.label;
+        if(!l){var lb=f.querySelector('label[for="'+el.id+'"]');l=lb?lb.firstChild.textContent.trim():el.name}
+        lines.push(l+": "+v);
+      });
+      var text=lines.join("\n"),res=$(".result",f);
+      $(".r-sum",res).textContent=text;
+      var w=$(".r-wa",res);
+      if(wa){
+        $(".r-text",res).textContent="El resumen está listo. Ábrelo en WhatsApp para enviarlo al equipo.";
+        w.href="https://wa.me/"+wa+"?text="+encodeURIComponent(text);w.hidden=false;
+      }else{
+        $(".r-text",res).textContent="El resumen está listo, pero este formulario todavía no lo envía solo. Cópialo y mándalo al equipo por WhatsApp o correo.";
+        w.hidden=true;
+      }
+      var cb=$(".r-copy",res);cb.dataset.copy=text;
+      res.hidden=false;res.scrollIntoView({block:"nearest",behavior:reduce?"auto":"smooth"});
+    });
+  });
+})();
+</script>
+
+</body></html>
